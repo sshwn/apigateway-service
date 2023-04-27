@@ -47,6 +47,7 @@ spring:
           filters:
             - RemoveRequestHeader=Cookie  # requestHeader값 초기화
             - RewritePath=/user-service/(?<segment>.*), /$\{segment}
+            - AuthorizationHeaderFilter  # 이 요청에 대해서는 반드시 filter 처리해야한다. apply 함수에서 토큰 체크
         - id: catalog-service
           uri: lb://CATALOG-SERVICE
           predicates:
@@ -78,3 +79,6 @@ spring:
                 baseMessage: Hi, there.
                 preLogger: true
                 postLogger: true
+
+token:
+  secret: user_token #토큰을 생성할때 어떤 키를 이용할지 (임의의 값) 특수한 토큰 만들때 사용됨.
